@@ -37,7 +37,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
             //define a quantidade de resultados e registros como 1
             query.setMaxResults(1);
             
-            if(query.getResultList().isEmpty()){
+            if(!query.getResultList().isEmpty()){
                 usuario = (Usuario) query.getSingleResult();
                 
             }else{
@@ -46,6 +46,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         } catch (Exception e) {
             System.out.println("Error "+ e);
         }
+        return usuario;
     }
 }
     
