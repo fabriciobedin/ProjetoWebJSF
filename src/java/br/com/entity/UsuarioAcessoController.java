@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -61,7 +62,26 @@ public class UsuarioAcessoController implements Serializable {
     public List<Usuario> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+        
     
+    /**
+     * Método utilizado para inicializar métodos ao instanciar a classe
+     */
+    @PostConstruct
+    public void init(){
+        prepareAutenticarUsuario();
+    }
+    
+        
+    /**
+     * preparando para autenticação
+     */
+    public void prepareAutenticarUsuario(){
+        selected = new Usuario();
+        initializeEmbeddableKey();
+    
+    }
+        
     
     
     public String autenticarUsuario(){
