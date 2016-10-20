@@ -1,5 +1,6 @@
 package br.com.entity;
 
+import br.com.entity.util.JsfUtil;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
@@ -60,6 +61,36 @@ public class UsuarioAcessoController implements Serializable {
     public List<Usuario> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
+    
+    
+    
+    public String autenticarUsuario(){
+        Usuario usuario = ejbFacade.findUsuarioByLogin(selected.getUsrLogin());
+        
+        //se encontrou usuario
+        if(usuario != null){
+            //se a senha existe
+            if(usuario.getUsrSenha() != null){
+                if(usuario.getUsrSenha().equals(selected.getUsrSenha())){
+                    return "/admin/produto/List.xhtml";
+                }else{
+                    JsfUtil.addErrorMessage("Usuário ou senha incorretos!");
+                    //não muda de pagina
+                    return null;
+                }
+                
+            } else{
+                JsfUtil.addErrorMessage(usuario.getUsrLogin()+" : Senha não cadastrada!");
+                return null;
+            }
+        }else{
+            JsfUtil.addErrorMessage("Usuário não cadastrado!");
+            return null;
+        }
+    }
+    
+    
+    
 
     @FacesConverter(forClass = Usuario.class)
     public static class UsuarioControllerConverter implements Converter {
