@@ -8,6 +8,7 @@ package br.com.entity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,4 +29,24 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
     
+    public Usuario findUsuarioByLogin(String login){
+        Usuario usuario = null;
+        try {
+            Query query = getEntityManager().createNamedQuery("Usuario.findByUsrLogin");
+            query.setParameter("usrLogin", login);
+            //define a quantidade de resultados e registros como 1
+            query.setMaxResults(1);
+            
+            if(query.getResultList().isEmpty()){
+                usuario = (Usuario) query.getSingleResult();
+                
+            }else{
+                System.out.println("Nenhum resultado localizado para findByUserLogin");}
+                    
+        } catch (Exception e) {
+            System.out.println("Error "+ e);
+        }
+    }
 }
+    
+

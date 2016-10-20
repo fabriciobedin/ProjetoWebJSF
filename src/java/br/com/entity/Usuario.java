@@ -48,47 +48,58 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "usr_codigo")
     private Integer usrCodigo;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "usr_datacadastro")
     @Temporal(TemporalType.DATE)
     private Date usrDatacadastro;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "usr_nome")
     private String usrNome;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "usr_login")
     private String usrLogin;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "usr_senha")
     private String usrSenha;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "usr_bloqueado")
     private boolean usrBloqueado;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "usr_email")
     private String usrEmail;
+    
     @Size(max = 250)
     @Column(name = "usr_observacao")
     private String usrObservacao;
+    
     @OneToMany(mappedBy = "usrCodigo")
     private Collection<Compra> compraCollection;
+    
     @OneToMany(mappedBy = "usrCodigo")
     private Collection<Produto> produtoCollection;
+    
     @JoinColumn(name = "cid_codigo", referencedColumnName = "cid_codigo")
     @ManyToOne(optional = false)
     private Cidade cidCodigo;
