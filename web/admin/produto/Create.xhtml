@@ -11,22 +11,17 @@
         <p:dialog id="ProdutoCreateDlg" widgetVar="ProdutoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateProdutoTitle}">
             <h:form id="ProdutoCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{produtoController.selected != null}">
+                    <h:panelGrid columns="2" rendered="#{produtoController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateProdutoLabel_prdDescricao}" for="prdDescricao" />
-                        <p:inputText id="prdDescricao" value="#{produtoController.selected.prdDescricao}" title="#{bundle.CreateProdutoTitle_prdDescricao}" required="true" requiredMessage="#{bundle.CreateProdutoRequiredMessage_prdDescricao}"/>
-                        <p:outputLabel value="#{bundle.CreateProdutoLabel_prdDatahora}" for="prdDatahora" />
-                        <p:calendar id="prdDatahora" pattern="MM/dd/yyyy" value="#{produtoController.selected.prdDatahora}" title="#{bundle.EditProdutoTitle_prdDatahora}" required="true" requiredMessage="#{bundle.EditProdutoRequiredMessage_prdDatahora}" showOn="button"/>
+                        <p:inputText id="prdDescricao" size="50" value="#{produtoController.selected.prdDescricao}" title="#{bundle.CreateProdutoTitle_prdDescricao}" required="true" requiredMessage="#{bundle.CreateProdutoRequiredMessage_prdDescricao}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateProdutoLabel_prdValorunitario}" for="prdValorunitario" />
                         <p:inputText id="prdValorunitario" value="#{produtoController.selected.prdValorunitario}" title="#{bundle.CreateProdutoTitle_prdValorunitario}" required="true" requiredMessage="#{bundle.CreateProdutoRequiredMessage_prdValorunitario}"/>
+                        
                         <p:outputLabel value="#{bundle.CreateProdutoLabel_prdAtivo}" for="prdAtivo" />
                         <p:selectBooleanCheckbox id="prdAtivo" value="#{produtoController.selected.prdAtivo}" required="true" requiredMessage="#{bundle.EditProdutoRequiredMessage_prdAtivo}"/>
-                        <p:outputLabel value="#{bundle.CreateProdutoLabel_usrCodigo}" for="usrCodigo" />
-                        <p:selectOneMenu id="usrCodigo" value="#{produtoController.selected.usrCodigo}" required="true" requiredMessage="#{bundle.EditProdutoRequiredMessage_usrCodigo}">
-                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
-                                           var="usrCodigoItem"
-                                           itemValue="#{usrCodigoItem}"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
+
+                    </h:panelGrid>
                     <p:commandButton actionListener="#{produtoController.create}" value="#{bundle.Save}" update="display,:ProdutoListForm:datalist,:growl" oncomplete="handleSubmit(args,'ProdutoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ProdutoCreateDialog.hide()"/>
                 </h:panelGroup>
