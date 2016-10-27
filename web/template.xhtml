@@ -19,7 +19,7 @@
             <p:layoutUnit position="north" size="65" header="#{bundle.AppName}">
                 <h:form id="menuForm">
                     <p:menubar>
-                        <p:menuitem value="SAIR" outcome="/login"/>
+                        <p:menuitem value="SAIR" action="#{usuarioAcessoController.logout()}"/>
                         <p:submenu label="#{bundle.Maintenance}">
                             <p:menuitem value="Cidade" outcome="/admin/cidade/List.xhtml" />
                             <p:menuitem value="Compra" outcome="/admin/compra/List.xhtml" />
