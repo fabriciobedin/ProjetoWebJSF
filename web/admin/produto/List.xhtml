@@ -44,7 +44,7 @@
                                 <h:outputText value="#{bundle.ListProdutoTitle_prdDatahora}"/>
                             </f:facet>
                             <h:outputText value="#{item.prdDatahora}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                <f:convertDateTime pattern="dd/MM/yyyy - HH:mm" />
                             </h:outputText>
                         </p:column>
                         <p:column>
@@ -63,7 +63,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListProdutoTitle_usrCodigo}"/>
                             </f:facet>
-                            <h:outputText value="#{item.usrCodigo}"/>
+                            <h:outputText value="#{item.usrCodigo} "/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{produtoController.prepareCreate}" update=":ProdutoCreateForm" oncomplete="PF('ProdutoCreateDialog').show()"/>
