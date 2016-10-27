@@ -170,7 +170,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return "br.com.entity.Produto[ prdCodigo=" + prdCodigo + " ]";
+        return prdDescricao;
     }
     
 }

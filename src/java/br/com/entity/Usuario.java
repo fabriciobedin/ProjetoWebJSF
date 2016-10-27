@@ -233,7 +233,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return usrNome;
+        return usrCodigo + " - " + usrNome;
     }
     
 }
