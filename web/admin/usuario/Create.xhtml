@@ -12,8 +12,6 @@
             <h:form id="UsuarioCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateUsuarioLabel_usrCodigo}" for="usrCodigo" />
-                        <p:inputText id="usrCodigo" value="#{usuarioController.selected.usrCodigo}" title="#{bundle.CreateUsuarioTitle_usrCodigo}" required="true" requiredMessage="#{bundle.CreateUsuarioRequiredMessage_usrCodigo}"/>
                         <p:outputLabel value="#{bundle.CreateUsuarioLabel_usrDatacadastro}" for="usrDatacadastro" />
                         <p:calendar id="usrDatacadastro" pattern="MM/dd/yyyy" value="#{usuarioController.selected.usrDatacadastro}" title="#{bundle.EditUsuarioTitle_usrDatacadastro}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_usrDatacadastro}" showOn="button"/>
                         <p:outputLabel value="#{bundle.CreateUsuarioLabel_usrNome}" for="usrNome" />
