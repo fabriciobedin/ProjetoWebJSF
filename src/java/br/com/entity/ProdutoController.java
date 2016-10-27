@@ -2,6 +2,8 @@ package br.com.entity;
 
 import br.com.entity.util.JsfUtil;
 import br.com.entity.util.JsfUtil.PersistAction;
+import br.com.entity.util.Util;
+import br.com.entity.util.UtilSession;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,6 +27,8 @@ public class ProdutoController implements Serializable {
     private br.com.entity.ProdutoFacade ejbFacade;
     private List<Produto> items = null;
     private Produto selected;
+    private final Util util = new Util();
+    private final UtilSession session = new UtilSession();
 
     public ProdutoController() {
     }
@@ -49,11 +53,14 @@ public class ProdutoController implements Serializable {
 
     public Produto prepareCreate() {
         selected = new Produto();
+        //setando o usuario logado
+        selected.setUsrCodigo(session.getUsuarioLogado());
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
+        selected.setPrdDatahora(util.buscarDataHora());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ProdutoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
