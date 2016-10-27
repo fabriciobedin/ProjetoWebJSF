@@ -13,6 +13,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.servlet.http.HttpSession;
 
 @Named("usuarioAcessoController")
 @SessionScoped
@@ -22,6 +23,8 @@ public class UsuarioAcessoController implements Serializable {
     private br.com.entity.UsuarioFacade ejbFacade;
     private List<Usuario> items = null;
     private Usuario selected;
+    private final FacesContext context = FacesContext.getCurrentInstance();
+    private final HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 
     public UsuarioAcessoController() {
     }
@@ -85,13 +88,17 @@ public class UsuarioAcessoController implements Serializable {
     
     
     public String autenticarUsuario(){
+        //busca o usuario na base de dados
         Usuario usuario = ejbFacade.findUsuarioByLogin(selected.getUsrLogin());
         
         //se encontrou usuario
         if(usuario != null){
             //se a senha existe
             if(usuario.getUsrSenha() != null){
+                //se a senha informada é a mesma cadastrada
                 if(usuario.getUsrSenha().equals(selected.getUsrSenha())){
+                    //setando o atributo "logado" na sessao, com o codigo do usuario
+                    session.setAttribute("logado", usuario.getUsrCodigo());
                     return "/admin/produto/List.xhtml";
                 }else{
                     JsfUtil.addErrorMessage("Usuário ou senha incorretos!");
@@ -107,6 +114,12 @@ public class UsuarioAcessoController implements Serializable {
             JsfUtil.addErrorMessage("Usuário não cadastrado!");
             return null;
         }
+    }
+    
+    
+    public String logout(){
+        session.invalidate();
+        return "/login";
     }
     
     
