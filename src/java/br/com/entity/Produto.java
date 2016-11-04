@@ -170,7 +170,7 @@ public class Produto implements Serializable {
 
     @Override
     public String toString() {
-        return prdDescricao;
+        return prdCodigo + " - " + prdDescricao + " ( R$ " + prdValorunitario + " )";
     }
     
 }

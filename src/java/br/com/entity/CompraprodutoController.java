@@ -4,6 +4,7 @@ import br.com.entity.util.JsfUtil;
 import br.com.entity.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -50,10 +51,31 @@ public class CompraprodutoController implements Serializable {
     public Compraproduto prepareCreate() {
         selected = new Compraproduto();
         initializeEmbeddableKey();
+        selected.setCprQuantidade(1);
         return selected;
     }
 
-    public void create() {
+    public void create() {        
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraprodutoCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+    
+    public void createCompraProduto(Integer compraCodigo) {
+        //preparando dados...
+        Integer quantidade = selected.getCprQuantidade();
+        BigDecimal valorUnitario = selected.getPrdCodigo().getPrdValorunitario();
+        BigDecimal valorTotal = valorUnitario.multiply(new BigDecimal(quantidade));
+        
+        Compra cmp = new Compra(compraCodigo);
+        
+        //setar os valores
+        selected.setCmpCodigo(cmp);
+        selected.setCprValorunitario(valorUnitario);
+        selected.setCprValortotal(valorTotal);        
+        
+        //persistindo compraproduto...
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraprodutoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.

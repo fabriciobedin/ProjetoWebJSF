@@ -2,6 +2,7 @@ package br.com.entity;
 
 import br.com.entity.util.JsfUtil;
 import br.com.entity.util.JsfUtil.PersistAction;
+import br.com.entity.util.Util;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,6 +26,9 @@ public class CompraController implements Serializable {
     private br.com.entity.CompraFacade ejbFacade;
     private List<Compra> items = null;
     private Compra selected;
+    private Integer compraCodigo;
+    private String usuarioNome;
+    private Util util = new Util();
 
     public CompraController() {
     }
@@ -52,10 +56,21 @@ public class CompraController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
+    
+     public Compra prepareCreateGeral() {
+        selected = new Compra();
+        initializeEmbeddableKey();
+         setCompraCodigo(null);
+         setUsuarioNome(null);
+        return selected;
+    }
 
     public void create() {
+        selected.setCmpDatahora(util.buscarDataHora());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompraCreated"));
         if (!JsfUtil.isValidationFailed()) {
+            setCompraCodigo(selected.getCmpCodigo());
+            setUsuarioNome(selected.getUsrCodigo().getUsrNome());
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
@@ -78,16 +93,31 @@ public class CompraController implements Serializable {
         }
         return items;
     }
+    
+    
+    
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             setEmbeddableKeys();
             try {
-                if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
+                
+                if(null != persistAction){
+                    switch (persistAction){
+                        case CREATE:
+                            getFacade().create(selected);
+                            break;
+                        case UPDATE:
+                            getFacade().edit(selected);
+                            break;
+                        case DELETE:
+                            getFacade().remove(selected);
+                            break;
+                        default:
+                            break;
+                    }
+                }                
+                
                 JsfUtil.addSuccessMessage(successMessage);
             } catch (EJBException ex) {
                 String msg = "";
@@ -117,6 +147,22 @@ public class CompraController implements Serializable {
 
     public List<Compra> getItemsAvailableSelectOne() {
         return getFacade().findAll();
+    }
+
+    public Integer getCompraCodigo() {
+        return compraCodigo;
+    }
+
+    public void setCompraCodigo(Integer compraCodigo) {
+        this.compraCodigo = compraCodigo;
+    }
+
+    public String getUsuarioNome() {
+        return usuarioNome;
+    }
+
+    public void setUsuarioNome(String usuarioNome) {
+        this.usuarioNome = usuarioNome;
     }
 
     @FacesConverter(forClass = Compra.class)
